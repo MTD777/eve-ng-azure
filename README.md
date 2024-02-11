@@ -1,4 +1,4 @@
-# EVE-NG deployment in Azure with Terraform & Ansible
+# EVE-NG deployment in Azure with Terraform 
 
 This repository uses [Terraform](https://terraform.io) to create and manage Azure
 infrastructure.
@@ -87,10 +87,6 @@ $ terraform plan
 
 $ terraform apply
 ```
-6. Once Terraform deploy the infrastructure in Azure we just need to configure the VM with Ansible. To do so, navigate to `eve-ng-azure/ansible` and run the following:
-```bash
-$ ansible-playbook -u eve-ng -i inventory playbook.yml
-```
 
 > Upload speed of QEMU images depends on your Internet connection.
 
@@ -98,8 +94,6 @@ $ ansible-playbook -u eve-ng -i inventory playbook.yml
 
 Navigate to http://{eveng_fqdn}.
 The default credentials of `admin/eve` can be used. The service is only available over HTTP and currently does not redirect or supports HTTPS.
-
-> I'm likely to accept a pull request that configures SSL on EVE-NG server.
 
 # Syncing New Images
 
@@ -109,10 +103,6 @@ You just need to add an additional image into the appropriate directory and re-r
 $ cd ~/eve-ng-azure/ansible
 $ ansible-playbook -u eve-ng -i inventory playbook.yml
 ```
-
-# Caveats
-
-> My ISP recently introduced IPv6 to my broadband connection. Thus, I have included IPv6 NSG rules into the file `network_security_group.tf`. If this is not the case for you, please comment any code referencing IPv6 as instructed in the file.
 
 # Basic connectivity test with a simple topology.
 In the directory  `eve-ng-azure/lab` , I have included a simple topology (Basic connectivity test.zip) which can be loaded to EVE-NG with the relevant configuration files. The topology is based on Cisco QEMU images.
