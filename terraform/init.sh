@@ -1,7 +1,8 @@
 #!/bin/sh
 
-#Installing EveNG
+#Installing EveNG - Config from https://www.eve-ng.net/focal/install-eve-pro.sh
 sudo su
+#!/bin/sh
 
 # On Azure attach data disk
 azure_disk_tune () {
@@ -27,12 +28,15 @@ sed -i -e "s/.*PermitRootLogin .*/PermitRootLogin yes/" /etc/ssh/sshd_config
 wget -O - http://www.eve-ng.net/focal/eczema@ecze.com.gpg.key | sudo apt-key add -
 apt-get update
 apt-get -y install software-properties-common
+#sudo add-apt-repository "deb [arch=amd64]  http://www.eve-ng.net/repo-testing xenial main"
 echo "deb [arch=amd64] http://www.eve-ng.net/focal focal main" > /etc/apt/sources.list.d/eve-ng.list
 apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get -y install eve-ng
+DEBIAN_FRONTEND=noninteractive apt-get -y docker-ce
+DEBIAN_FRONTEND=noninteractive apt-get -y install eve-ng-pro
 /etc/init.d/mysql restart
-DEBIAN_FRONTEND=noninteractive apt-get -y install eve-ng
-DEBIAN_FRONTEND=noninteractive apt-get -y install eve-ng
+DEBIAN_FRONTEND=noninteractive apt-get -y install eve-ng-pro
+rm -fr /var/lib/docker/aufs
+DEBIAN_FRONTEND=noninteractive apt-get -y install eve-ng-pro
 
 # Detect cloud
 
@@ -49,6 +53,7 @@ update-grub2
 
 azure_kernel_tune () {
 apt update
+#apt install linux-image-4.20.17-eve-ng-azure+
 echo "options kvm_intel nested=1 vmentry_l1d_flush=never" > /etc/modprobe.d/qemu-system-x86.conf
 sed -i -e 's/PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 sudo -i
