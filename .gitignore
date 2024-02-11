@@ -30,5 +30,11 @@ id_rsa.pub
 **/.ansible/*
 inventory
 
+
 # More file to exlude
 .DS_Store
+images-folder/images/*
+to-do.txt
+tfplan
+images-folder/iol/*
+iol

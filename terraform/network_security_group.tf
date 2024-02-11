@@ -20,7 +20,7 @@ resource "azurerm_network_security_rule" "inbound_ipv4" {
   network_security_group_name = azurerm_network_security_group.main.name
   protocol                    = "Tcp"
   source_port_range           = "*"
-  #source_address_prefixes     = [data.http.pip_ipv4.body, length(var.allowed_ipv4) > 0 ? join(",", var.allowed_ipv4) : null]
+  source_address_prefix     = var.IPAddress
   #source_address_prefixes     = [data.http.pip_ipv4.body, join(",", var.allowed_ipv4)]
   destination_port_ranges     = [22, 80]
   destination_address_prefix  = "*"
@@ -30,21 +30,21 @@ resource "azurerm_network_security_rule" "inbound_ipv4" {
 }
 
 #If your ISP is NOT providing an IPv6, comment out lines 32-44
-resource "azurerm_network_security_rule" "inbound_ipv6" {
-  count = [data.http.pip_ipv6.body] != 0 ? 1 : 0
+# resource "azurerm_network_security_rule" "inbound_ipv6" {
+#   count = [data.http.pip_ipv6.body] != 0 ? 1 : 0
 
-  name                        = "AllowServicesInBoundIPv6"
-  resource_group_name         = azurerm_resource_group.main.name
-  network_security_group_name = azurerm_network_security_group.main.name
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  source_address_prefixes     = [data.http.pip_ipv6.body]
-  destination_port_ranges     = [22, 80]
-  destination_address_prefix  = "*"
-  access                      = "Allow"
-  priority                    = 101
-  direction                   = "Inbound"
-}
+#   name                        = "AllowServicesInBoundIPv6"
+#   resource_group_name         = azurerm_resource_group.main.name
+#   network_security_group_name = azurerm_network_security_group.main.name
+#   protocol                    = "Tcp"
+#   source_port_range           = "*"
+#   source_address_prefixes     = [data.http.pip_ipv6.body]
+#   destination_port_ranges     = [22, 80]
+#   destination_address_prefix  = "*"
+#   access                      = "Allow"
+#   priority                    = 101
+#   direction                   = "Inbound"
+# }
 
 resource "azurerm_network_security_rule" "inbound_ipv4_telnet" {
   name                        = "AllowTelnetInBoundIPv4"
@@ -52,7 +52,7 @@ resource "azurerm_network_security_rule" "inbound_ipv4_telnet" {
   network_security_group_name = azurerm_network_security_group.main.name
   protocol                    = "Tcp"
   source_port_range           = "*"
-  source_address_prefixes     = [data.http.pip_ipv4.body, join(",", var.allowed_ipv4)]
+  source_address_prefix     = var.IPAddress
   destination_port_range      = "32769 - 32788"
   destination_address_prefix  = "*"
   access                      = "Allow"
@@ -61,21 +61,21 @@ resource "azurerm_network_security_rule" "inbound_ipv4_telnet" {
 }
 
 #If your ISP is NOT providing an IPv6, comment out lines 63-77
-resource "azurerm_network_security_rule" "inbound_ipv6_telnet" {
-  count = [data.http.pip_ipv6.body] != 0 ? 1 : 0
+# resource "azurerm_network_security_rule" "inbound_ipv6_telnet" {
+#   count = [data.http.pip_ipv6.body] != 0 ? 1 : 0
 
-  name                        = "AllowTelnetInBoundIPv6"
-  resource_group_name         = azurerm_resource_group.main.name
-  network_security_group_name = azurerm_network_security_group.main.name
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  source_address_prefixes     = [data.http.pip_ipv6.body]
-  destination_port_range      = "32769 - 32788"
-  destination_address_prefix  = "*"
-  access                      = "Allow"
-  priority                    = 103
-  direction                   = "Inbound"
-}
+#   name                        = "AllowTelnetInBoundIPv6"
+#   resource_group_name         = azurerm_resource_group.main.name
+#   network_security_group_name = azurerm_network_security_group.main.name
+#   protocol                    = "Tcp"
+#   source_port_range           = "*"
+#   source_address_prefixes     = [data.http.pip_ipv6.body]
+#   destination_port_range      = "32769 - 32788"
+#   destination_address_prefix  = "*"
+#   access                      = "Allow"
+#   priority                    = 103
+#   direction                   = "Inbound"
+# }
 
 resource "azurerm_network_security_rule" "inbound_deny_all" {
   name                        = "DenyAllInBound_Override" # default rule 65500

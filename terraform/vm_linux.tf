@@ -5,6 +5,7 @@ resource "azurerm_public_ip" "main" {
   allocation_method   = "Static"
   sku                 = "Standard"
   domain_name_label   = var.eveng_fqdn
+  availability_zone   = "No-Zone"
   tags                = var.tags
 }
 
@@ -37,9 +38,13 @@ resource "azurerm_linux_virtual_machine" "main" {
   size                  = var.vm_size
   computer_name         = "eve-ng"
   admin_username        = var.admin_username
+ # admin_password        = var.admin_password
   network_interface_ids = [azurerm_network_interface.main.id]
-  zone                  = "3"
+  #zone                  = "3"
+  #disable_password_authentication = false
+  custom_data = filebase64("init.sh")
   tags                  = var.tags
+
 
   admin_ssh_key {
     username   = var.admin_username
@@ -53,10 +58,12 @@ resource "azurerm_linux_virtual_machine" "main" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts-gen2"
     version   = "latest"
   }
+
+  depends_on = [ azurerm_managed_disk.main ]
 }
 
 resource "azurerm_managed_disk" "main" {
@@ -66,7 +73,8 @@ resource "azurerm_managed_disk" "main" {
   storage_account_type = "Standard_LRS"
   create_option        = "Empty"
   disk_size_gb         = var.disk_size_gb
-  zones                = [3]
+  #zones                = [3]
+  
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "main" {

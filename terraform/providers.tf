@@ -1,9 +1,28 @@
-provider "azurerm" {
-  subscription_id              = var.subscription_id
-  tenant_id                    = var.tenant_id
-  disable_terraform_partner_id = true
-  storage_use_azuread          = true
+terraform {
+  required_version = ">=0.12"
 
-  features {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~>2.0"
+    }
+
+    tls = {
+      source = "hashicorp/tls"
+      version = "~>4.0"
+    }
+    http = {
+      source  = "hashicorp/http"
+      version = "~> 2.1.0"
+    }
+
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.1.0"
+    }
   }
+}
+
+provider "azurerm" {
+  features {}
 }

@@ -3,6 +3,13 @@ variable "admin_username" {
   description = "The admin user for the Azure VM"
 }
 
+# variable "admin_password" {
+#   type        = string
+#   description = "The admin password for the Azure VM"
+#   sensitive = true
+
+# }
+
 variable "allowed_ipv4" {
   type        = list(string)
   default     = []
@@ -34,7 +41,7 @@ variable "address_space" {
 
 variable "location" {
   type        = string
-  default     = "uksouth" # London
+  default     = "northcentralus" # London
   description = "The Azure Region where the Resource Group should exist."
 }
 
@@ -55,14 +62,12 @@ variable "disk_size_gb" {
   description = "Specifies the size of the Data disk in GB"
 }
 
-variable "subscription_id" {
-  type        = string
-  default     = ""
-  description = "The Azure Subscription ID where you want to deploy resources"
-}
+variable "IPAddress" {
+  type = string
+  description = "Enter your home IP address. If you do not know it you can go to https://whatismyipaddress.com/. For example: 1.2.3.4 ."
+  validation {
+    condition = can(regex("\\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b", var.IPAddress))
+	error_message = "Could not parse IP address. Please ensure the IP is a valid IPv4 IP address."
+  }
 
-variable "tenant_id" {
-  type        = string
-  default     = ""
-  description = "The Azure Tenant ID where you want to deploy resources"
 }

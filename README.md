@@ -1,8 +1,8 @@
 # EVE-NG deployment in Azure with Terraform & Ansible
 
 This repository uses [Terraform](https://terraform.io) to create and manage Azure
-infrastructure and [Ansible](https://ansible.com) to manage the images and the
-configuration of an EVE-NG server in MS Azure.
+infrastructure.
+
 By using those tools, we are able to have an EVE-NG server ready in less than 20 minutes !!
 
 
@@ -20,20 +20,14 @@ Because one of the most frequently asked question from friend and colleagues is:
 
 Because is the most popular IaC tool for Cloud deployments.
 
-## Why Ansible?
-
-Because is the most popular configuration management tool.
 
 ## Additional Notes
 
  - Terraform state file is local , there is no need to share the state file with anyone for your personal EVE-NG lab.
- - The Ansible playbook is an adaptation of the EVE-NG Community Edition [bash
-script](https://www.eve-ng.net/repo/install-eve.sh).
 
 
 ## Authentication
 - Terraform will authenitcate against MS Azure APIs using your `az login` credentials.
-- Ansible will authenticate using `SSH private key`.
 
 
 ## Terraform Variables
@@ -41,22 +35,19 @@ script](https://www.eve-ng.net/repo/install-eve.sh).
 This project has a few default variables defined in `variables.tf` file.
 You can override them by adding the new values into `terraform.tfvars` file.
 You should update the variable `eveng_fqdn` to reflect your FQDN preference and
-avoid any FQDN duplication. The file `yoursecrets.tfvars` is a place holder for you to include your MS Azure details like:
-`subscription_id` and `tenant_id`.
+avoid any FQDN duplication. 
 
 ## Before starting with the deployment
 
 Make sure you have Terraform and Ansible installed:
 
 - [Install Terraform](https://learn.hashicorp.com/terraform/getting-started/install)
-- [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
-
 
 ## Deployment steps
 
 1. Clone this repo into your local system:
 ```bash
-$ git clone git@github.com:aandroulakas/eve-ng-azure.git
+$ git clone https://github.com/MTD777/eve-ng-azure.git
 ```
 
 2. Amend the content of the file `yoursecrets.tfvars` to reflect the Azure Tenant and the Azure Subscripiton in which
